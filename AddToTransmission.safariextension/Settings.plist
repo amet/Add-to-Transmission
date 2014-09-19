@@ -16,9 +16,19 @@
 		<key>DefaultValue</key>
 		<string></string>
 		<key>Key</key>
-		<string>path</string>
+		<string>path_movie</string>
 		<key>Title</key>
-		<string>Download Path</string>
+		<string>Download Path - Movie</string>
+		<key>Type</key>
+		<string>TextField</string>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<string></string>
+		<key>Key</key>
+		<string>path_tv</string>
+		<key>Title</key>
+		<string>Download Path - TV</string>
 		<key>Type</key>
 		<string>TextField</string>
 	</dict>

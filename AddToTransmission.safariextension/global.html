@@ -58,7 +58,7 @@
 		};
 
 		var session_id = false;
-		function torrent(info) {
+		function torrent(info, movie) {
 			this.info = info;
 			this.add = function() {
 				that = this;
@@ -68,9 +68,15 @@
 					addPaused = safari.extension.settings.addpaused;
 				}
 				var downloadDir = "";
-				if (safari.extension.settings.getItem("path") != null) {
-					downloadDir = safari.extension.settings.path;
-				}
+				if (movie) {
+					if (safari.extension.settings.getItem("path_movie") != null) {
+						downloadDir = safari.extension.settings.path_movie;
+					}
+				} else {
+					if (safari.extension.settings.getItem("path_tv") != null) {
+						downloadDir = safari.extension.settings.path_tv;
+					}
+				}	
 				if (that.info.magnet) {
 					// Send the magnet link
 					that.upload(JSON.stringify({method:"torrent-add", arguments:{filename:that.info.href, paused:addPaused, "download-dir":downloadDir}}));
@@ -150,13 +156,16 @@
 			if (event.userInfo !== false) {
 				userInfo = event.userInfo;
 				
-				event.contextMenu.appendContextMenuItem("addtotransmission", "Add to Transmission");
+				event.contextMenu.appendContextMenuItem("addtotransmission_movie", "Add to Transmission - Movie");
+				event.contextMenu.appendContextMenuItem("addtotransmission_tv", "Add to Transmission - TV");
 			}
 		}
 		
 		function performCommand(event) {
-			if (event.command === "addtotransmission") {
-				var newTorrent = new torrent(userInfo);
+			if ((event.command === "addtotransmission_movie") || (event.command === "addtotransmission_tv")) {
+				var movie = true;
+				if (event.command === "addtotransmission_tv") {movie = false}
+				var newTorrent = new torrent(userInfo, movie);
 				newTorrent.add();
 			}
 		}
